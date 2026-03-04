@@ -1,5 +1,12 @@
 import React from 'react'
-import {Link, Outlet} from 'react-router-dom'
+import {NavLink, Outlet} from 'react-router-dom'
+
+const navLinkStyles = ({ isActive }) => ({
+  color: isActive ? '#007bff' : '#ffffff',
+  textDecoration: isActive ? 'none' : 'underline',
+  fontWeight: isActive ? 'bold' : 'normal',
+  padding: '5px 10px'
+});
 
 function Dashboard() {
   return (
@@ -7,8 +14,8 @@ function Dashboard() {
       <h1>Dashboard Page</h1>
 
       <nav>
-        <Link to='/dashboard/profile'>Profile</Link> |{' '}
-        <Link to='/dashboard/contact'>Contact</Link>
+        <NavLink to='/dashboard/profile' style={navLinkStyles}>Profile</NavLink> |{' '}
+        <NavLink to='/dashboard/contact' style={navLinkStyles}>Contact</NavLink>
       </nav>
       <Outlet />
     </div>
