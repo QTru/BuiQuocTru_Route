@@ -1,31 +1,63 @@
 import { useState } from 'react'
 import './App.css'
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider, Link, Outlet } from 'react-router-dom';
 import Home from './components/Home';
 import ProductList from './components/ProductList';
-import Dashboard from './components/Dashboard';
-import Contact from './components/Contact';
-import Profile from './components/Profile';
+import Menu from './components/Menu';
+import Guest from './components/Guest';
+import User from './components/User';
+import Product from './components/Product';
 
-function App() {
+function Layout() {
   return (
-    <BrowserRouter>
+    <>
       <nav>
         <Link to="/home">Home</Link> |{" "}
         <Link to="/product-list">ProductList</Link> |{" "}
-        <Link to="/dashboard">Dashboard</Link>
+        <Link to="/menu">Menu</Link>
       </nav>
+      <Outlet />
+    </>
+  );
+}
 
-      <Routes>
-        <Route path="/home" element={<Home />} />
-        <Route path="/product-list" element={<ProductList />} />
-        <Route path="/dashboard" element={<Dashboard />}>
-          <Route path='profile' element={<Profile />} />
-          <Route path='contact' element={<Contact />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
-  )
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Layout />,
+    children: [
+      {
+        path: "/home",
+        element: <Home />
+      },
+      {
+        path: "/product-list",
+        element: <ProductList />
+      },
+      {
+        path: "/menu",
+        element: <Menu />,
+        children: [
+          {
+            path: "user",
+            element: <User />
+          },
+          {
+            path: "guest",
+            element: <Guest />
+          },
+          {
+            path: "product",
+            element: <Product />
+          }
+        ]
+      }
+    ]
+  }
+]);
+
+function App() {
+  return <RouterProvider router={router} />;
 }
 
 export default App
